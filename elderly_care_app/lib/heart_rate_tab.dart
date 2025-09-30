@@ -24,16 +24,8 @@ class _HeartRateTabState extends State<HeartRateTab> {
   void initState() {
     super.initState();
 
-    // Set backend URL depending on platform
-    if (kIsWeb) {
-      // For web, replace with your computer's LAN IP
-      baseUrl = 'http://192.0.0.2:3000/api/heart';
-    } else {
-      // For mobile emulator/simulator
-      // Android emulator: use 10.0.2.2
-      // iOS simulator: localhost works
-      baseUrl = 'http://10.0.2.2:3000/api/heart';
-    }
+    // Set backend URL to the live Render service
+    baseUrl = 'https://elderly-care-backend-giv2.onrender.com/api/heart';
 
     fetchHeartData();
     timer = Timer.periodic(Duration(seconds: 1), (_) => fetchHeartData());
