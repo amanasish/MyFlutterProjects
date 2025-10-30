@@ -78,13 +78,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Sticker/Icon
+              ///Icon
               ClipOval(
                 child: Image.asset(
                   'assets/icons/RegImg1.png',
                   height: 207,
                   width: 207,
-                  fit: BoxFit.cover, // Ensures it fills the circle
+                  fit: BoxFit.cover,
                 ),
               ),
               SizedBox(height: 20),

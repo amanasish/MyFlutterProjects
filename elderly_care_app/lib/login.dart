@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'app_styles.dart';
-import 'main.dart'; // or the file where BottomTabScreen is defined
+import 'main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,14 +14,18 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  bool _isLoading = false;
+
   Future<void> loginUser() async {
-    // final url = Uri.parse('https://eldernest.onrender.com/api/userLogin');
-    // final url = Uri.parse('http://localhost:3000/api/userLogin');
-    final url = Uri.parse(
-      'https://elderly-care-backend-giv2.onrender.com/api/userLogin',
-    );
+    setState(() {
+      _isLoading = true;
+    });
 
     try {
+      final url = Uri.parse(
+        'https://elderly-care-backend-giv2.onrender.com/api/userLogin',
+      );
+
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
@@ -34,16 +38,14 @@ class _LoginScreenState extends State<LoginScreen> {
       final jsonData = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        // ✅ Store uniqueCode using SharedPreferences
+        // Storing uniqueCode using SharedPreferences
         final prefs = await SharedPreferences.getInstance();
-        //await prefs.setString('uniqueCode', jsonData['data']['uniqueCode']);
 
-        ///
         await prefs.setString('name', jsonData['data']['name']);
         await prefs.setString('email', jsonData['data']['email']);
         await prefs.setString('uniqueCode', jsonData['data']['uniqueCode']);
 
-        // Show success message
+        // success message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(jsonData['message'] ?? 'Login successful')),
         );
@@ -56,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       } else {
-        // Failed login
+        // If Failed login
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(jsonData['message'] ?? 'Login failed')),
         );
@@ -65,17 +67,25 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text("Error: $e")));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
+
+  //frnted
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Fresh clean background
+      backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(
           // Centers content vertically & scrollable if needed
-          padding: EdgeInsets.all(24), // Uniform padding for breathing space
+          padding: EdgeInsets.all(24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -85,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   'assets/icons/LogImg1.png',
                   height: 220,
                   width: 220,
-                  fit: BoxFit.cover, // Ensures it fills the circle
+                  fit: BoxFit.cover,
                 ),
               ),
               SizedBox(height: 20),
@@ -143,23 +153,28 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 24),
 
               // Login Button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.teal,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+              _isLoading
+                  ? CircularProgressIndicator() // Show this if loading
+                  : SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.teal,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 14),
+                        ),
+                        onPressed: loginUser,
+                        child: Text(
+                          'Login',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 14),
-                  ),
-                  onPressed: loginUser,
-                  child: Text(
-                    'Login',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
               SizedBox(height: 16),
 
               // Register Link

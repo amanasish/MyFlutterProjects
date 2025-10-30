@@ -1,19 +1,34 @@
-import 'package:flutter/material.dart'; // package that adds buttons functions
+import 'package:flutter/material.dart';
 import 'login.dart';
 import 'register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'heart_rate_tab.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-//AAG_001
+//noti plug
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // ✅ 3. Initialize local notifications
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  const InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+  );
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  // ✅ 4. Run your app after setup
   runApp(ElderlyCareApp());
 }
 
 /// Home Page
-
 class ElderlyCareApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -52,12 +67,11 @@ class _BottomTabScreenState extends State<BottomTabScreen> {
   int _selectedIndex = 0;
   late List<Widget> _screens;
 
+  // only single login managing states
   @override
   void initState() {
     super.initState();
-    _homeTab = HomeTab(
-      showWelcome: widget.showWelcome,
-    ); // 👈 only once on login
+    _homeTab = HomeTab(showWelcome: widget.showWelcome);
 
     _screens = [
       _homeTab,
@@ -68,6 +82,7 @@ class _BottomTabScreenState extends State<BottomTabScreen> {
     ];
   }
 
+  // frnted
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -326,10 +341,10 @@ class _MedicineTabState extends State<MedicineTab> {
                 ),
               ),
               onChanged: (value) {
-                // Optional: add search debounce or suggestions
+                //later
               },
               onSubmitted: (value) {
-                // Call your search function here later
+                //later
               },
             ),
             SizedBox(height: 30),
@@ -337,7 +352,7 @@ class _MedicineTabState extends State<MedicineTab> {
               icon: Icon(Icons.alarm),
               label: Text('Set Reminder'),
               onPressed: () {
-                // TODO: handle later
+                // later
               },
             ),
             SizedBox(height: 16),
@@ -345,7 +360,7 @@ class _MedicineTabState extends State<MedicineTab> {
               icon: Icon(Icons.medical_services),
               label: Text('View Medicines'),
               onPressed: () {
-                // TODO: handle later
+                // later
               },
             ),
           ],
