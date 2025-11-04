@@ -7,10 +7,10 @@ const csv = require('csv-parser');
 let heartData = [];
 let index = 0;
 
-// CSV path (place sample_heart_rate.csv in API folder)
+// CSV path 
 const csvPath = path.join(__dirname, 'sample_heart_rate.csv');
 
-// Load CSV on server start
+// Load CSV 
 fs.createReadStream(csvPath)
   .pipe(csv())
   .on('data', (row) => {

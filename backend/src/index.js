@@ -6,7 +6,7 @@ const userRoutes = require("../API/UserController.js");
 const cors = require('cors'); 
 app.use(cors({ origin: '*' }));
 
-//for heart module API
+//heart module API
 const heartRouter = require('../API/heart');    
 app.use('/api', heartRouter);                   
 

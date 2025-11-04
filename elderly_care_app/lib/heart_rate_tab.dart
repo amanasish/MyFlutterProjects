@@ -49,7 +49,6 @@ class _HeartRateTabState extends State<HeartRateTab> {
           if (recentReadings.length > 10) recentReadings.removeLast();
         });
 
-        // ✅ Check for abnormal heart rate after updating value
         checkAbnormalHeartRate(context, heartRate);
       } else {
         print('Error: Server returned ${response.statusCode}');
@@ -73,7 +72,7 @@ class _HeartRateTabState extends State<HeartRateTab> {
         "Your heart rate is below 60 bpm!",
       );
       showWebNotification(context, "⚠ Low Heart Rate: $heartRate bpm");
-    } else if (heartRate > 90) {
+    } else if (heartRate > 100) {
       showHeartAlert(
         context,
         "High Heart Rate",
@@ -142,8 +141,8 @@ class _HeartRateTabState extends State<HeartRateTab> {
   void showHeartNotification(String title, String message) async {
     const AndroidNotificationDetails androidDetails =
         AndroidNotificationDetails(
-          'heart_alerts', // channel ID
-          'Heart Alerts', // channel name
+          'heart_alerts',
+          'Heart Alerts',
           importance: Importance.max,
           priority: Priority.high,
         );
@@ -152,12 +151,7 @@ class _HeartRateTabState extends State<HeartRateTab> {
       android: androidDetails,
     );
 
-    await flutterLocalNotificationsPlugin.show(
-      0, // notification ID
-      title,
-      message,
-      details,
-    );
+    await flutterLocalNotificationsPlugin.show(0, title, message, details);
   }
 
   @override

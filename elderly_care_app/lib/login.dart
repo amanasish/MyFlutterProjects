@@ -84,12 +84,11 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(
-          // Centers content vertically & scrollable if needed
           padding: EdgeInsets.all(24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Logo / Sticker
+              // Logo
               ClipOval(
                 child: Image.asset(
                   'assets/icons/LogImg1.png',
@@ -154,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // Login Button
               _isLoading
-                  ? CircularProgressIndicator() // Show this if loading
+                  ? CircularProgressIndicator()
                   : SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(

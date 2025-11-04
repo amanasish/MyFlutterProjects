@@ -1,14 +1,12 @@
 const express = require('express');
 const bcrypt = require("bcryptjs");
-const { dbConnection } = require("../src/config/dbConnection"); // adjust path as needed
+const { dbConnection } = require("../src/config/dbConnection"); 
 
 
 
 const User = require("../models/user");
 
 const router = express.Router();
-
-// Sample route
 
 router.get('/', (req, res) => {
   res.send('User route is working!');
@@ -25,7 +23,7 @@ function generateRandomCode(length = 12) {
 }
 
 
-// Check uniqueness of code
+// Checking uniqueness of code
 async function generateUniqueCode(collection) {
   let code;
   let exists;
@@ -97,7 +95,6 @@ router.post("/userRegister", async (req, res) => {
 
 // User login
 
-
 router.post('/userLogin', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -115,7 +112,7 @@ router.post('/userLogin', async (req, res) => {
     console.log("Entered password:", password);
     console.log("Stored hash:", user.password);
 
-    //for password compare
+    //password compare
     const isMatch = await bcrypt.compare(password, user.password);
 
     console.log("Password match result:", isMatch);
@@ -171,37 +168,3 @@ router.get("/userGetAll",async(req,res)=>{
     })
 })
 
-
-// // Insert Into DataBase
-// app.post("/user-insert", async (req, res) => {
-//   try {
-//     const myDb = await dbConnection();
-//     console.log("Connected to DB");
-
-//     const loginCollection = myDb.collection("User2"); // change collection here
-//     console.log("Collection ready");
-
-//     const obj = {
-//       name: req.body.name,
-//       email: req.body.email,
-//       password: req.body.password,
-//     };
-//     console.log("Received Object:", obj);
-
-//     const insertRes = await loginCollection.insertOne(obj);
-//     console.log("Insert result:", insertRes);
-
-//     res.send({
-//       status: 1,
-//       msg: "User Inserted!!!",
-//       insertRes,
-//     });
-//   } catch (err) {
-//     console.error("Insert Error:", err.message);
-//     res.send({
-//       status: 0,
-//       msg: "Insert failed",
-//       error: err.message,
-//     });
-//   }
-// });

@@ -14,7 +14,6 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // ✅ 3. Initialize local notifications
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
 
@@ -24,7 +23,6 @@ void main() async {
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  // ✅ 4. Run your app after setup
   runApp(ElderlyCareApp());
 }
 
@@ -52,10 +50,9 @@ class ElderlyCareApp extends StatelessWidget {
 /// Bottom Panel
 
 class BottomTabScreen extends StatefulWidget {
-  final bool showWelcome; // Add this line
+  final bool showWelcome;
 
-  const BottomTabScreen({Key? key, this.showWelcome = false})
-    : super(key: key); // Modify constructor
+  const BottomTabScreen({Key? key, this.showWelcome = false}) : super(key: key);
 
   @override
   _BottomTabScreenState createState() => _BottomTabScreenState();
@@ -67,7 +64,6 @@ class _BottomTabScreenState extends State<BottomTabScreen> {
   int _selectedIndex = 0;
   late List<Widget> _screens;
 
-  // only single login managing states
   @override
   void initState() {
     super.initState();
@@ -340,28 +336,20 @@ class _MedicineTabState extends State<MedicineTab> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              onChanged: (value) {
-                //later
-              },
-              onSubmitted: (value) {
-                //later
-              },
+              onChanged: (value) {},
+              onSubmitted: (value) {},
             ),
             SizedBox(height: 30),
             ElevatedButton.icon(
               icon: Icon(Icons.alarm),
               label: Text('Set Reminder'),
-              onPressed: () {
-                // later
-              },
+              onPressed: () {},
             ),
             SizedBox(height: 16),
             ElevatedButton.icon(
               icon: Icon(Icons.medical_services),
               label: Text('View Medicines'),
-              onPressed: () {
-                // later
-              },
+              onPressed: () {},
             ),
           ],
         ),
